@@ -148,3 +148,116 @@ for i in norm_columns:
      min_col = churn_df_mod[i].min()
      max_col = churn_df_mod[i].max()
      churn_df_mod[i] = (churn_df_mod[i] - min_col)/(max_col-min_col)
+
+## Model generation
+X = churn_df_mod.drop(columns="Churn")
+y = churn_df_mod.Churn
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, shuffle = True)
+# modelli che si testano
+# 1 KNN
+# 2 GradientBoosting
+# 3 AdaBoosting
+# 4 SVM
+# 5 Logistic Regression
+# 6 Random Forest
+models = ["KNN", "Gradient Boosting", "AdaBoost","SVM","Logistic Regression","Random Forest"]
+
+def func_metrics(y_test, y_pred, metrics, modello):
+    
+    accuracy = round(accuracy_score(y_test,y_pred),3)
+    precision = round(precision_score(y_test, y_pred),3) 
+    recall = round(recall_score(y_test, y_pred),3)
+    f1 = round(f1_score(y_test, y_pred),3)
+    dict_met = {"Model": [modello],
+                "Accuracy score": [accuracy],
+                "Precision score": [precision],
+                "Recall score": [recall],
+                "F1 score":[f1]}
+    
+    metric = pd.DataFrame(data=dict_met)
+    metrics = pd.concat([metrics,metric])
+    
+    return metrics
+
+def funz_modelli(X_train, X_test, y_train, y_test, models):
+     metrics = pd.DataFrame()
+     opt_params = []
+     for modello in models:
+        if modello=="KNN":
+            param_grid = {"n_neighbors": [2,3,5,10],
+                         "p": [1,2]}
+            knn_model = KNeighborsClassifier()
+            grid = GridSearchCV(knn_model, param_grid)
+            grid.fit(X_train, y_train)
+            model = KNeighborsClassifier(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        elif modello=="SVM":
+            param_grid = {"C": [0.001,0.01,0.1,0.5,1,2,5],
+                         "kernel": ["linear","rbf","poly"],
+                         "gamma": ["scale","auto"],
+                         "degree": [2,3,4]}
+            svc_model = SVC()
+            grid = GridSearchCV(svc_model, param_grid)
+            grid.fit(X_train, y_train)
+            model = SVC(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        elif modello=="Random Forest":
+            param_grid = {"n_estimators": [15,25,50,64,100,200],
+                         "max_features": [2,3,5],
+                         "bootstrap": [True,False]}
+            rfc = RandomForestClassifier()
+            grid = GridSearchCV(rfc, param_grid)
+            grid.fit(X_train, y_train)
+            model = RandomForestClassifier(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        elif modello=="AdaBoost":
+            param_grid = {"n_estimators": [5,10,25,50,100],
+                         "learning_rate": [0.01,0.05,0.1,0.25,0.5]}
+            ada_model = AdaBoostClassifier()
+            grid = GridSearchCV(ada_model, param_grid)
+            grid.fit(X_train, y_train)
+            model = AdaBoostClassifier(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        elif modello=="Gradient Boosting":
+            param_grid = {"n_estimators": [10,25,50],
+                         "learning_rate": [0.01,0.05,0.1,0.5],
+                         "max_depth": [3,4,5]}
+            gb_model = GradientBoostingClassifier()
+            grid = GridSearchCV(gb_model, param_grid)
+            grid.fit(X_train, y_train)
+            model = GradientBoostingClassifier(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        elif modello=="Logistic Regression":
+            param_grid = {"C":[0.001,0.1,1,5],
+                          "solver":["lbfgs","liblinear","saga"],
+                          "max_iter":[500]}
+            logreg_model = LogisticRegression()
+            grid = GridSearchCV(logreg_model, param_grid)
+            grid.fit(X_train, y_train)
+            model = LogisticRegression(**grid.best_params_)
+            opt_params.append(grid.best_params_)
+
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        metrics = func_metrics(y_test, y_pred, metrics, modello)
+     return metrics, opt_params
+
+metrics, opt_params = funz_modelli(X_train, X_test, y_train, y_test, models)
+# stampo la tabella con i risultati degli algoritmi
+fig, ax = plt.subplots()
+# Nascondo gli assi
+ax.axis('tight')
+ax.axis('off')
+table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc='center', loc='center')
+plt.show()
+
+print(metrics)
+print(opt_params)
+## Scelgo il SVM perchè, a parità di Accuracy, ha un f1 score maggiore e soprattutto un recall maggiore
+# preferisco guardare recall a precision perchè più il recall è alto più abbiamo previsto quali utenti ci abbandoneranno, sui quali possiamo lavorare per fidelizzarli di più
+# SVM ottimale è con kernel lineare, C=5, degree=2 e gamma=scale
