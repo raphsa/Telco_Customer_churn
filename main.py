@@ -49,7 +49,7 @@ for i, var in enumerate(numerical_var):
         ax.set_xlabel(var)
         ax.legend(title="Abbandono")
         handles, labels = ax.get_legend_handles_labels()
-        new_labels = ['Sì' if label == 'Yes' else label for label in labels]
+        new_labels = ["Sì" if label == "Yes" else label for label in labels]
         ax.legend(handles, new_labels)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
@@ -58,7 +58,7 @@ plt.show()
 counts = churn_df["Churn"].value_counts()
 # building the barplot with specified colours
 colors = ["green" if label == "Yes" else "red" for label in counts.index]
-counts.plot(kind='bar', color=colors)
+counts.plot(kind="bar", color=colors)
 # adding title and labels
 plt.title("Distribuzione sulla base del cambio di operatore telefonico")
 plt.xlabel("Abbandono")
@@ -85,7 +85,7 @@ def grid_plots(variabili):
         ax.legend(title="Abbandono")
         ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
         handles, labels = ax.get_legend_handles_labels()
-        new_labels = ['Sì' if label == 'Yes' else label for label in labels]
+        new_labels = ["Sì" if label == "Yes" else label for label in labels]
         ax.legend(handles, new_labels)
 grid_plots(demog_var)
 axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
@@ -179,11 +179,11 @@ def func_metrics(y_test, y_pred, metrics, modello):
     
     return metrics
 
-def funz_modelli(X_train, X_test, y_train, y_test, models):
+def func_models(X_train, X_test, y_train, y_test, models):
      metrics = pd.DataFrame()
      opt_params = []
-     for modello in models:
-        if modello=="KNN":
+     for mod in models:
+        if mod=="KNN":
             param_grid = {"n_neighbors": [2,3,5,10],
                          "p": [1,2]}
             knn_model = KNeighborsClassifier()
@@ -192,7 +192,7 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
             model = KNeighborsClassifier(**grid.best_params_)
             opt_params.append(grid.best_params_)
 
-        elif modello=="SVM":
+        elif mod=="SVM":
             param_grid = {"C": [0.001,0.01,0.1,0.5,1,2,5],
                          "kernel": ["linear","rbf","poly"],
                          "gamma": ["scale","auto"],
@@ -203,7 +203,7 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
             model = SVC(**grid.best_params_)
             opt_params.append(grid.best_params_)
 
-        elif modello=="Random Forest":
+        elif mod=="Random Forest":
             param_grid = {"n_estimators": [15,25,50,64,100,200],
                          "max_features": [2,3,5],
                          "bootstrap": [True,False]}
@@ -213,7 +213,7 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
             model = RandomForestClassifier(**grid.best_params_)
             opt_params.append(grid.best_params_)
 
-        elif modello=="AdaBoost":
+        elif mod=="AdaBoost":
             param_grid = {"n_estimators": [5,10,25,50,100],
                          "learning_rate": [0.01,0.05,0.1,0.25,0.5]}
             ada_model = AdaBoostClassifier()
@@ -222,7 +222,7 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
             model = AdaBoostClassifier(**grid.best_params_)
             opt_params.append(grid.best_params_)
 
-        elif modello=="Gradient Boosting":
+        elif mod=="Gradient Boosting":
             param_grid = {"n_estimators": [10,25,50],
                          "learning_rate": [0.01,0.05,0.1,0.5],
                          "max_depth": [3,4,5]}
@@ -232,7 +232,7 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
             model = GradientBoostingClassifier(**grid.best_params_)
             opt_params.append(grid.best_params_)
 
-        elif modello=="Logistic Regression":
+        elif mod=="Logistic Regression":
             param_grid = {"C":[0.001,0.1,1,5],
                           "solver":["lbfgs","liblinear","saga"],
                           "max_iter":[500]}
@@ -247,13 +247,13 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
         metrics = func_metrics(y_test, y_pred, metrics, modello)
      return metrics, opt_params
 
-metrics, opt_params = funz_modelli(X_train, X_test, y_train, y_test, models)
+metrics, opt_params = func_models(X_train, X_test, y_train, y_test, models)
 # plotting table with algorithms results
 fig, ax = plt.subplots()
 # hiding axes
-ax.axis('tight')
-ax.axis('off')
-table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc='center', loc='center')
+ax.axis("tight")
+ax.axis("off")
+table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc="center", loc="center")
 plt.show()
 
 print(metrics)
