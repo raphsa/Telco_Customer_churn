@@ -244,7 +244,7 @@ def func_models(X_train, X_test, y_train, y_test, models):
 
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        metrics = func_metrics(y_test, y_pred, metrics, modello)
+        metrics = func_metrics(y_test, y_pred, metrics, mod)
      return metrics, opt_params
 
 metrics, opt_params = func_models(X_train, X_test, y_train, y_test, models)
