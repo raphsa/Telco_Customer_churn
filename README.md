@@ -25,6 +25,7 @@ It contains demographic, contractual, and behavioral data about customers.
 	- **K-Nearest Neighbors (KNN)**
 	- **Gradient Boosting (XGBoost)**
 	- **AdaBoost**
+
 Each model was evaluated using the following metrics:
 - **Accuracy**
 - **F1 Score**
@@ -61,6 +62,6 @@ python -m venv name_env /n source name_env/bin/activate
 python main.py
 ```
 
-Results (charts and reports) will be saved in the ./images folder.
+Results (plots and table) are saved in the ./images folder.
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
