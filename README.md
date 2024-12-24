@@ -1,20 +1,20 @@
-## Telco Customer Churn Prediction
-# Project Description
+# Telco Customer Churn Prediction
+## Project Description
 This project aims to analyze the churn behavior of customers in a telecommunications company using a dataset from Kaggle and develop a predictive model to identify whether a customer will leave the service or not.
 
-# Project steps
+## Project steps
 - Exploratory Data Analysis (EDA)
 - Data Visualization
 - Feature Engineering
 - Testing multiple Machine Learning algorithms
 - Comparing evaluation metrics across models
 
-# Goal
+## Goal
 - Understand the key factors influencing customer churn.
 - Build an accurate model to predict churn.
 - Identify the best-performing algorithm based on metrics such as accuracy, F1-score, recall, and precision.
 
-# Dataset
+## Dataset
 The dataset used is the Telco Customer Churn Dataset, available on Kaggle. It contains demographic, contractual, and behavioral data about customers.
 
 Dataset Details
@@ -56,13 +56,13 @@ Precision
 5. Model Comparison
 The results were summarized in a comparison table to identify the most performant model.
 
-# Requirements
+## Requirements
 To run the project, ensure you have the following installed:
 - Python 3.7 or higher
 - Libraries: pandas, numpy, matplotlib, seaborn, scikit-learn
 Install dependencies with:
 - pip install -r requirements.txt
-# Steps
+## Steps
 - Clone the repository:
 git clone https://github.com/raphsa/Telco_Customer_churn.git
 - Activate the virtual environment:
