@@ -174,7 +174,7 @@ def func_metrics(y_test, y_pred, metrics, model):
     precision = round(precision_score(y_test, y_pred),3) 
     recall = round(recall_score(y_test, y_pred),3)
     f1 = round(f1_score(y_test, y_pred),3)
-    dict_met = {"Model": [modello],
+    dict_met = {"Model": [model],
                 "Accuracy score": [accuracy],
                 "Precision score": [precision],
                 "Recall score": [recall],
