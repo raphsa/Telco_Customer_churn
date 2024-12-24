@@ -18,8 +18,8 @@ churn_df.columns
 churn_df.head()
 churn_df.info()
 # checking unique values
-for colonna in churn_df.columns:
-    print(f"{colonna}: {churn_df[colonna].unique()}")
+for col in churn_df.columns:
+    print(f"{col}: {churn_df[col].unique()}")
 # deleting unnecessaries columns
 churn_df.drop(columns="customerID", inplace=True)
 # converting TotalCharges dtype
@@ -66,18 +66,18 @@ plt.ylabel("Numero di utenti nel dataset")
 plt.xticks(rotation=0)
 plt.show()
 # making plots on categories distribution between clients left and not left
-def calcola_percentuali(var, target, df=churn_df):
+def percentage_calc(var, target, df=churn_df):
     counts = df.groupby([var, target]).size().unstack(fill_value=0)
-    percentuali = counts.div(counts.sum(axis=1), axis=0) * 100
-    return percentuali
+    percent = counts.div(counts.sum(axis=1), axis=0) * 100
+    return percent
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 demog_var = ["Gender", "SeniorCitizen", "Partner", "Dependents"]
 # developing method to insert plots in grid
-def grafici_inquadrati(variabili):
+def grid_plots(variabili):
     for i, var in enumerate(variabili):
         ax = axes[i//2, i%2]  # set a 2x2 grid
-        percentuali = calcola_percentuali(var, "Churn")
-        percentuali.plot(kind="bar", stacked=True, color=["green","red"], ax=ax)
+        percent = percentage_calc(var, "Churn")
+        percent.plot(kind="bar", stacked=True, color=["green","red"], ax=ax)
         ax.set_title(f"Distribuzione di Abbandono per {var}")
         ax.set_ylim(0, 100) 
         ax.set_ylabel("Percentuale")
@@ -87,7 +87,7 @@ def grafici_inquadrati(variabili):
         handles, labels = ax.get_legend_handles_labels()
         new_labels = ['Sì' if label == 'Yes' else label for label in labels]
         ax.legend(handles, new_labels)
-grafici_inquadrati(demog_var)
+grid_plots(demog_var)
 axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
@@ -95,14 +95,14 @@ plt.show()
 # making same plots for other connession related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 connection_var = ["PhoneService","MultipleLines","InternetService","StreamingTV"]
-grafici_inquadrati(connection_var)
+grid_plots(connection_var)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
 # making same plots for client information related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 customer_var = ["Contract","PaperlessBilling","PaymentMethod"]
-grafici_inquadrati(customer_var)
+grid_plots(customer_var)
 axes[1,1].axis("off")
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
