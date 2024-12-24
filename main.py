@@ -107,3 +107,23 @@ axes[1,1].axis("off")
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
+
+## Feature importance
+# divido in x e y
+x = churn_df.select_dtypes(include=object).drop("Churn", axis=1)
+y = churn_df.Churn
+# calcolo l'importanza delle variabili
+def compute_mutual_information(categorical_serie):
+    return mutual_info_score(categorical_serie, y)
+mi_scores = x.apply(compute_mutual_information).sort_values(ascending=False)
+print(mi_scores)
+# faccio il grafico
+mi_values = x.apply(compute_mutual_information)
+mi_values_sorted, variables_sorted = zip(*sorted(zip(mi_values, x.columns), reverse=True))
+plt.figure(figsize=(8, 6))
+plt.barh(variables_sorted, mi_values_sorted, color='skyblue')
+plt.title('Mutual Information per variabile')
+plt.ylabel('Variabili')
+plt.xlabel('Mutual Information')
+plt.tight_layout(pad=3.0)
+plt.show()
