@@ -127,3 +127,24 @@ plt.ylabel('Variabili')
 plt.xlabel('Mutual Information')
 plt.tight_layout(pad=3.0)
 plt.show()
+
+## Feature engineering
+# di seguito si faranno:
+# 1 codifica variabili dicotomiche
+# 2 one-hot-encoding per variabili qualitative con più di 2 modalità
+# 3 normalizzazione variabili quantitative
+# codifica variabili dicotomiche
+churn_df_mod = churn_df.copy()
+churn_df_mod.Gender = churn_df.Gender.map({"Female":1,"Male":0})
+yes_no_columns = ["Partner","Dependents","PhoneService","PaperlessBilling","Churn"]
+for i in yes_no_columns:
+     churn_df_mod[i] = churn_df[i].map({"Yes":1,"No":0})
+# one-hot-encoding
+ohe_columns = ["MultipleLines","InternetService","OnlineSecurity","OnlineBackup","DeviceProtection","TechSupport","StreamingTV","StreamingMovies","Contract","PaymentMethod"]
+churn_df_mod = pd.get_dummies(churn_df_mod, columns = ohe_columns)
+# normalizzazione
+norm_columns = ["Tenure","MonthlyCharges","TotalCharges"]
+for i in norm_columns:
+     min_col = churn_df_mod[i].min()
+     max_col = churn_df_mod[i].max()
+     churn_df_mod[i] = (churn_df_mod[i] - min_col)/(max_col-min_col)
