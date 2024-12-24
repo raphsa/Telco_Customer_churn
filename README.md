@@ -1,20 +1,20 @@
-# Telco_Customer_churn
-Telco Customer Churn Prediction
-Project Description
+## Telco Customer Churn Prediction
+# Project Description
 This project aims to analyze the churn behavior of customers in a telecommunications company using a dataset from Kaggle and develop a predictive model to identify whether a customer will leave the service or not.
 
-The main steps of the project include:
+# Project steps
+- Exploratory Data Analysis (EDA)
+- Data Visualization
+- Feature Engineering
+- Testing multiple Machine Learning algorithms
+- Comparing evaluation metrics across models
 
-Exploratory Data Analysis (EDA)
-Data Visualization
-Feature Engineering
-Testing multiple Machine Learning algorithms
-Comparing evaluation metrics across models
-Objectives
-Understand the key factors influencing customer churn.
-Build an accurate model to predict churn.
-Identify the best-performing algorithm based on metrics such as accuracy, F1-score, recall, and precision.
-Dataset
+# Goal
+- Understand the key factors influencing customer churn.
+- Build an accurate model to predict churn.
+- Identify the best-performing algorithm based on metrics such as accuracy, F1-score, recall, and precision.
+
+# Dataset
 The dataset used is the Telco Customer Churn Dataset, available on Kaggle. It contains demographic, contractual, and behavioral data about customers.
 
 Dataset Details
@@ -55,22 +55,21 @@ Recall
 Precision
 5. Model Comparison
 The results were summarized in a comparison table to identify the most performant model.
-Requirements
-To run the project, ensure you have the following installed:
 
-Python 3.7 or higher
-Libraries: pandas, numpy, matplotlib, seaborn, scikit-learn, xgboost
+# Requirements
+To run the project, ensure you have the following installed:
+- Python 3.7 or higher
+- Libraries: pandas, numpy, matplotlib, seaborn, scikit-learn
 Install dependencies with:
-pip install -r requirements.txt
-How to Run
-Clone the repository:
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
-Activate the virtual environment:
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+- pip install -r requirements.txt
+# Steps
+- Clone the repository:
+git clone https://github.com/raphsa/Telco_Customer_churn.git
+- Activate the virtual environment:
+python -m venv name_env
+source name_env/bin/activate  # On Windows: venv\Scripts\activate
 Run the main script:
 python main.py
-Results (charts and reports) will be saved in the images folder.
+Results (charts and reports) will be saved in the ./images folder.
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
