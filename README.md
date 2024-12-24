@@ -61,7 +61,7 @@ To run the project, ensure you have the following installed:
 - Python 3.7 or higher
 - Libraries: pandas, numpy, matplotlib, seaborn, scikit-learn
 Install dependencies with:
-- pip install -r requirements.txt
+'''pip install -r requirements.txt'''
 ## Steps
 - Clone the repository:
 git clone https://github.com/raphsa/Telco_Customer_churn.git
