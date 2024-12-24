@@ -39,7 +39,7 @@ churn_df.rename(columns={"gender":"Gender","tenure":"Tenure"}, inplace=True)
 numerical_var = ["Tenure", "MonthlyCharges"]
 fig, axes = plt.subplots(1, 2, figsize=(12, 10))
 for i, var in enumerate(numerical_var):
-        ax = axes[i%2]  # Posiziono i grafici in una griglia 1x2
+        ax = axes[i%2]  # set 1x2 grid
         churn_df[churn_df["Churn"]=="No"][var].plot(kind="hist", ax=ax, density=True, 
                                                        alpha=0.5, color="green", label="No")
         churn_df[churn_df["Churn"]=="Yes"][var].plot(kind="hist", ax=ax, density=True,
@@ -54,6 +54,7 @@ for i, var in enumerate(numerical_var):
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
+plt.savefig("images/Churn_tenure.png")
 # making plot to evaluate the churn distribution in the dataset
 counts = churn_df["Churn"].value_counts()
 # building the barplot with specified colours
@@ -65,6 +66,7 @@ plt.xlabel("Churn")
 plt.ylabel("Total clients")
 plt.xticks(rotation=0)
 plt.show()
+plt.savefig("images/Churn_ds_dist.png")
 # making plots on categories distribution between clients left and not left
 def percentage_calc(var, target, df=churn_df):
     counts = df.groupby([var, target]).size().unstack(fill_value=0)
@@ -73,8 +75,8 @@ def percentage_calc(var, target, df=churn_df):
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 demog_var = ["Gender", "SeniorCitizen", "Partner", "Dependents"]
 # developing method to insert plots in grid
-def grid_plots(variabili):
-    for i, var in enumerate(variabili):
+def grid_plots(variables):
+    for i, var in enumerate(variables):
         ax = axes[i//2, i%2]  # set a 2x2 grid
         percent = percentage_calc(var, "Churn")
         percent.plot(kind="bar", stacked=True, color=["green","red"], ax=ax)
@@ -92,13 +94,15 @@ axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
-# making same plots for other connession related variables
+plt.savefig("images/demog_churn_dist.png")
+# making same plots for other connection related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 connection_var = ["PhoneService","MultipleLines","InternetService","StreamingTV"]
 grid_plots(connection_var)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
+plt.savefig("images/connect_churn_dist.png")
 # making same plots for client information related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 customer_var = ["Contract","PaperlessBilling","PaymentMethod"]
@@ -107,6 +111,7 @@ axes[1,1].axis("off")
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
+plt.savefig("images/infoclient_churn_dist.png")
 
 ## Feature importance
 # dividing between x and y
@@ -121,12 +126,13 @@ print(mi_scores)
 mi_values = x.apply(compute_mutual_information)
 mi_values_sorted, variables_sorted = zip(*sorted(zip(mi_values, x.columns), reverse=True))
 plt.figure(figsize=(8, 6))
-plt.barh(variables_sorted, mi_values_sorted, color='skyblue')
-plt.title('Mutual Information for variable')
-plt.ylabel('Variables')
-plt.xlabel('Mutual Information')
+plt.barh(variables_sorted, mi_values_sorted, color="skyblue")
+plt.title("Variables Mutual Information")
+plt.ylabel("Variables")
+plt.xlabel("Mutual Information")
 plt.tight_layout(pad=3.0)
 plt.show()
+plt.savefig("images/mutual_info.png")
 
 ## Feature engineering
 # things done:
@@ -162,7 +168,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 # 6 Random Forest
 models = ["KNN", "Gradient Boosting", "AdaBoost","SVM","Logistic Regression","Random Forest"]
 
-def func_metrics(y_test, y_pred, metrics, modello):
+def func_metrics(y_test, y_pred, metrics, model):
     
     accuracy = round(accuracy_score(y_test,y_pred),3)
     precision = round(precision_score(y_test, y_pred),3) 
@@ -255,6 +261,7 @@ ax.axis("tight")
 ax.axis("off")
 table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc="center", loc="center")
 plt.show()
+plt.savefig("images/model_performances.png")
 
 print(metrics)
 print(opt_params)
