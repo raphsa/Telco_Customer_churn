@@ -153,7 +153,7 @@ for i in norm_columns:
 X = churn_df_mod.drop(columns="Churn")
 y = churn_df_mod.Churn
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, shuffle = True)
-# modelli che si testano
+# tested models:
 # 1 KNN
 # 2 GradientBoosting
 # 3 AdaBoosting
@@ -248,9 +248,9 @@ def funz_modelli(X_train, X_test, y_train, y_test, models):
      return metrics, opt_params
 
 metrics, opt_params = funz_modelli(X_train, X_test, y_train, y_test, models)
-# stampo la tabella con i risultati degli algoritmi
+# plotting table with algorithms results
 fig, ax = plt.subplots()
-# Nascondo gli assi
+# hiding axes
 ax.axis('tight')
 ax.axis('off')
 table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc='center', loc='center')
@@ -258,6 +258,6 @@ plt.show()
 
 print(metrics)
 print(opt_params)
-## Scelgo il SVM perchè, a parità di Accuracy, ha un f1 score maggiore e soprattutto un recall maggiore
-# preferisco guardare recall a precision perchè più il recall è alto più abbiamo previsto quali utenti ci abbandoneranno, sui quali possiamo lavorare per fidelizzarli di più
-# SVM ottimale è con kernel lineare, C=5, degree=2 e gamma=scale
+## I pick the SVM because, having the same Accuracy, it has an higher F1 score and most of all an higher Recall
+# I prefer looking at Recall and Precision because an higher Recall means we better predict which clients will unsubscript, in order to focus on building customer loyalty
+# The best SVM is with a linear kernel, C=5, degree=2 and gamma=scale
