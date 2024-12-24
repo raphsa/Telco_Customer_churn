@@ -61,15 +61,15 @@ To run the project, ensure you have the following installed:
 - Python 3.7 or higher
 - Libraries: pandas, numpy, matplotlib, seaborn, scikit-learn
 Install dependencies with:
-<pre> ```bash pip install -r requirements.txt``` </pre>
+<pre> ``` pip install -r requirements.txt ``` </pre>
 ## Steps
 - Clone the repository:
-<pre> ```bash git clone https://github.com/raphsa/Telco_Customer_churn.git``` </pre>
+<pre> ``` git clone https://github.com/raphsa/Telco_Customer_churn.git ``` </pre>
 - Activate the virtual environment:
-<pre> ```bash python -m venv name_env /n source name_env/bin/activate``` </pre>
-- Install the file requirements.txt
+<pre> ``` python -m venv name_env /n source name_env/bin/activate ``` </pre>
+- Install the file ```requirements.txt```
 - Run the main script:
-<pre> ```bash python main.py``` </pre>
+<pre> ```bash python main.py ``` </pre>
 Results (charts and reports) will be saved in the ./images folder.
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
