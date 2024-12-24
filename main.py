@@ -33,3 +33,77 @@ churn_df["PaymentMethod"] = churn_df["PaymentMethod"].str.replace("Bank transfer
 churn_df["PaymentMethod"] = churn_df["PaymentMethod"].str.replace("Credit card (automatic)", "Credit card", regex=False)
 # set all columns with the capital letter
 churn_df.rename(columns={"gender":"Gender","tenure":"Tenure"}, inplace=True)
+
+### DATA VISUALIZATION
+## faccio grafici per valutare la distribuzione dell'abbandono sulla base della spesa mensile e il numero di mesi di abbonamento
+numerical_var = ["Tenure", "MonthlyCharges"]
+fig, axes = plt.subplots(1, 2, figsize=(12, 10))
+for i, var in enumerate(numerical_var):
+        ax = axes[i%2]  # Posiziono i grafici in una griglia 1x2
+        churn_df[churn_df["Churn"]=="No"][var].plot(kind="hist", ax=ax, density=True, 
+                                                       alpha=0.5, color="green", label="No")
+        churn_df[churn_df["Churn"]=="Yes"][var].plot(kind="hist", ax=ax, density=True,
+                                                        alpha=0.5, color="red", label="Yes")
+        ax.set_title(f"Distribuzione di Abbandono per {var}")
+        ax.set_ylabel("Frequenza")
+        ax.set_xlabel(var)
+        ax.legend(title="Abbandono")
+        handles, labels = ax.get_legend_handles_labels()
+        new_labels = ['Sì' if label == 'Yes' else label for label in labels]
+        ax.legend(handles, new_labels)
+plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
+plt.tight_layout(pad=3.0)
+plt.show()
+## Faccio grafico con la distribuzione dell'abbandono nel dataset
+counts = churn_df["Churn"].value_counts()
+# Creo il grafico a barre con i colori specificati
+colors = ["green" if label == "Yes" else "red" for label in counts.index]
+counts.plot(kind='bar', color=colors)
+# Aggiungo titolo ed etichette
+plt.title("Distribuzione sulla base del cambio di operatore telefonico")
+plt.xlabel("Abbandono")
+plt.ylabel("Numero di utenti nel dataset")
+plt.xticks(rotation=0)
+plt.show()
+## faccio grafici su distribuzione di ogni categoria tra abbandono e non
+def calcola_percentuali(var, target, df=churn_df):
+    counts = df.groupby([var, target]).size().unstack(fill_value=0)
+    percentuali = counts.div(counts.sum(axis=1), axis=0) * 100
+    return percentuali
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+demog_var = ["Gender", "SeniorCitizen", "Partner", "Dependents"]
+# Faccio il ciclo per creare i grafici
+def grafici_inquadrati(variabili):
+    for i, var in enumerate(variabili):
+        ax = axes[i//2, i%2]  # Posiziono i grafici in una griglia 2x2
+        percentuali = calcola_percentuali(var, "Churn")
+        percentuali.plot(kind="bar", stacked=True, color=["green","red"], ax=ax)
+        ax.set_title(f"Distribuzione di Abbandono per {var}")
+        ax.set_ylim(0, 100) 
+        ax.set_ylabel("Percentuale")
+        ax.set_xlabel(var)
+        ax.legend(title="Abbandono")
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
+        handles, labels = ax.get_legend_handles_labels()
+        new_labels = ['Sì' if label == 'Yes' else label for label in labels]
+        ax.legend(handles, new_labels)
+grafici_inquadrati(demog_var)
+axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
+plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
+plt.tight_layout(pad=3.0)
+plt.show()
+## faccio grafici uguali per altre variabili sulla connessione
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+connection_var = ["PhoneService","MultipleLines","InternetService","StreamingTV"]
+grafici_inquadrati(connection_var)
+plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
+plt.tight_layout(pad=3.0)
+plt.show()
+## faccio grafici uguali per le variabili sul cliente
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+customer_var = ["Contract","PaperlessBilling","PaymentMethod"]
+grafici_inquadrati(customer_var)
+axes[1,1].axis("off")
+plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
+plt.tight_layout(pad=3.0)
+plt.show()
