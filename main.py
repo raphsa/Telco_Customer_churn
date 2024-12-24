@@ -53,8 +53,8 @@ for i, var in enumerate(numerical_var):
         ax.legend(handles, new_labels)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
-plt.show()
 plt.savefig("images/Churn_tenure.png")
+plt.show()
 # making plot to evaluate the churn distribution in the dataset
 counts = churn_df["Churn"].value_counts()
 # building the barplot with specified colours
@@ -65,8 +65,8 @@ plt.title("Distribution based on phone operator changes")
 plt.xlabel("Churn")
 plt.ylabel("Total clients")
 plt.xticks(rotation=0)
-plt.show()
 plt.savefig("images/Churn_ds_dist.png")
+plt.show()
 # making plots on categories distribution between clients left and not left
 def percentage_calc(var, target, df=churn_df):
     counts = df.groupby([var, target]).size().unstack(fill_value=0)
@@ -93,16 +93,16 @@ grid_plots(demog_var)
 axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
-plt.show()
 plt.savefig("images/demog_churn_dist.png")
+plt.show()
 # making same plots for other connection related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 connection_var = ["PhoneService","MultipleLines","InternetService","StreamingTV"]
 grid_plots(connection_var)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
-plt.show()
 plt.savefig("images/connect_churn_dist.png")
+plt.show()
 # making same plots for client information related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 customer_var = ["Contract","PaperlessBilling","PaymentMethod"]
@@ -110,8 +110,8 @@ grid_plots(customer_var)
 axes[1,1].axis("off")
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
-plt.show()
 plt.savefig("images/infoclient_churn_dist.png")
+plt.show()
 
 ## Feature importance
 # dividing between x and y
@@ -131,8 +131,8 @@ plt.title("Variables Mutual Information")
 plt.ylabel("Variables")
 plt.xlabel("Mutual Information")
 plt.tight_layout(pad=3.0)
-plt.show()
 plt.savefig("images/mutual_info.png")
+plt.show()
 
 ## Feature engineering
 # things done:
@@ -260,8 +260,8 @@ fig, ax = plt.subplots()
 ax.axis("tight")
 ax.axis("off")
 table = ax.table(cellText=metrics.values, colLabels=metrics.columns, cellLoc="center", loc="center")
-plt.show()
 plt.savefig("images/model_performances.png")
+plt.show()
 
 print(metrics)
 print(opt_params)
