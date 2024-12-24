@@ -34,8 +34,8 @@ churn_df["PaymentMethod"] = churn_df["PaymentMethod"].str.replace("Credit card (
 # set all columns with the capital letter
 churn_df.rename(columns={"gender":"Gender","tenure":"Tenure"}, inplace=True)
 
-### DATA VISUALIZATION
-## faccio grafici per valutare la distribuzione dell'abbandono sulla base della spesa mensile e il numero di mesi di abbonamento
+## Data visualization
+# making plot to evaluate the churn distribution based on monthly charges and total months of subscription
 numerical_var = ["Tenure", "MonthlyCharges"]
 fig, axes = plt.subplots(1, 2, figsize=(12, 10))
 for i, var in enumerate(numerical_var):
@@ -54,28 +54,28 @@ for i, var in enumerate(numerical_var):
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
-## Faccio grafico con la distribuzione dell'abbandono nel dataset
+# making plot to evaluate the churn distribution in the dataset
 counts = churn_df["Churn"].value_counts()
-# Creo il grafico a barre con i colori specificati
+# building the barplot with specified colours
 colors = ["green" if label == "Yes" else "red" for label in counts.index]
 counts.plot(kind='bar', color=colors)
-# Aggiungo titolo ed etichette
+# adding title and labels
 plt.title("Distribuzione sulla base del cambio di operatore telefonico")
 plt.xlabel("Abbandono")
 plt.ylabel("Numero di utenti nel dataset")
 plt.xticks(rotation=0)
 plt.show()
-## faccio grafici su distribuzione di ogni categoria tra abbandono e non
+# making plots on categories distribution between clients left and not left
 def calcola_percentuali(var, target, df=churn_df):
     counts = df.groupby([var, target]).size().unstack(fill_value=0)
     percentuali = counts.div(counts.sum(axis=1), axis=0) * 100
     return percentuali
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 demog_var = ["Gender", "SeniorCitizen", "Partner", "Dependents"]
-# Faccio il ciclo per creare i grafici
+# developing method to insert plots in grid
 def grafici_inquadrati(variabili):
     for i, var in enumerate(variabili):
-        ax = axes[i//2, i%2]  # Posiziono i grafici in una griglia 2x2
+        ax = axes[i//2, i%2]  # set a 2x2 grid
         percentuali = calcola_percentuali(var, "Churn")
         percentuali.plot(kind="bar", stacked=True, color=["green","red"], ax=ax)
         ax.set_title(f"Distribuzione di Abbandono per {var}")
@@ -92,14 +92,14 @@ axes[0,1].set_xticklabels(["No","Yes"], rotation=0)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
-## faccio grafici uguali per altre variabili sulla connessione
+# making same plots for other connession related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 connection_var = ["PhoneService","MultipleLines","InternetService","StreamingTV"]
 grafici_inquadrati(connection_var)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 plt.tight_layout(pad=3.0)
 plt.show()
-## faccio grafici uguali per le variabili sul cliente
+# making same plots for client information related variables
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 customer_var = ["Contract","PaperlessBilling","PaymentMethod"]
 grafici_inquadrati(customer_var)
