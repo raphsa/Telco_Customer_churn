@@ -52,7 +52,8 @@ git clone https://github.com/raphsa/Telco_Customer_churn.git
 - Activate the virtual environment:
 
 ```bash
-python -m venv name_env /n source name_env/bin/activate
+python -m venv name_env
+source name_env/bin/activate
 ```
 
 - Install the file ```requirements.txt```
